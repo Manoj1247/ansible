@@ -1,0 +1,8 @@
+---
+- name : enable swap
+  shell:
+    cmd: "swapon /home/ec2-user/{{swap_size}}.swap"
+
+- name : copy the file
+  shell:
+    cmd: echo '/home/ec2-user/.swap swap swap defaults 0 0' | sudo tee -a /etc/fstab

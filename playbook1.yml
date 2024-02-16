@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  vars: 
+    swap_size: 2G
+  roles:
+    - allocate_swaps
+    - set_permissions
+    - enable_swap
+    
