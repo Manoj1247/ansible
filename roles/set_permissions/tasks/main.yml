@@ -1,9 +1,9 @@
 ---
 - name : give permissions to the file
-  shell:
+  command:
     cmd: "chmod 600 /home/ec2-user/{{swap_size}}.swap"
 
 - name: Create swap space
-  shell:
+  command:
     cmd: "mkswap /home/ec2-user/{{swap_size}}.swap"
   

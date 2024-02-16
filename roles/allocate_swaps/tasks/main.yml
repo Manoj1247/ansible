@@ -1,8 +1,8 @@
 ---
 - name : allocate swap file
-  shell:
+  command:
     cmd: "fallocate -l {{swap_size}} /home/ec2-user/{{swap_size}}.swap"
 
 - name : display file information
-  shell:
+  command:
     cmd: "stat /home/ec2-user/{{swap_size}}.swap"
