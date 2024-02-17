@@ -1,26 +1,23 @@
 ---
-#
-##- name: Clean Swap Space
- # hosts: all
- # become: yes
- # vars:
- #   swap_size: 4G
- # tasks:
- #   - name: Disable swap
- #     command: "swapoff /home/ec2-user/{{swap_size}}.swap"
- #     ignore_errors: yes  
-#
- #   - name: Remove swap file
- #     file:
- #       path: "/home/ec2-user/{{swap_size}}.swap"
- #       state: absent
-#
+# - name: Clean Swap Space
+#   hosts: all
+#   become: yes
+#   vars:
+#      swap_size: 1G
+#   tasks:
+#      - name: Disable swap
+#        command: "swapoff /home/ec2-user/{{swap_size}}.swap"
+#        ignore_errors: yes  
+
+#      - name: Remove swap file
+#        file:
+#          path: "/home/ec2-user/{{swap_size}}.swap"
+#          state: absent
+
 - hosts: all
   become: yes
   vars: 
-    swap_size: 1G
+    swap_size: 2G
   roles:
     - allocate_swaps
-    - set_permissions
-    - enable_swap
     

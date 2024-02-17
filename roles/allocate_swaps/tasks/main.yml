@@ -3,6 +3,28 @@
   command:
     cmd: "fallocate -l {{swap_size}} /home/ec2-user/{{swap_size}}.swap"
 
-- name : display file information
+
+- name : give permissions to the file
+  become: yes
+  file: 
+    path: "/home/ec2-user/{{swap_size}}.swap"
+    mode: 0600
+    
+- name: Create swap space
   command:
-    cmd: "stat /home/ec2-user/{{swap_size}}.swap"
+    cmd: "mkswap /home/ec2-user/{{swap_size}}.swap"
+
+- name : enable swap
+  command:
+    cmd: "swapon /home/ec2-user/{{swap_size}}.swap"
+
+- name: Copy the line to /etc/fstab
+  lineinfile:
+    path: /etc/fstab
+    line: '/home/ec2-user/.swap swap swap defaults 0 0'
+    insertafter: EOF
+    state: present
+    create: yes
+
+
+  
