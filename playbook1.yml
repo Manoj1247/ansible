@@ -17,7 +17,7 @@
 - hosts: all
   become: yes
   vars: 
-    swap_size: 2G
+    swap_size: 0.3G
   roles:
     - allocate_swaps
     

@@ -1,15 +1,26 @@
 ---
+- name : check if swap file exists
+  stat : 
+    path : "/home/ec2-user/{{swap_size}}.swap"
+  register: swap_file_status    
+
+- name: Fail it if "/swapfile" exists
+  fail:
+    msg: Swap file exists
+  when: swap_file_status.stat.exists
+
 - name : allocate swap file
   command:
     cmd: "fallocate -l {{swap_size}} /home/ec2-user/{{swap_size}}.swap"
-
+  when : not swap_file_status.stat.exists
 
 - name : give permissions to the file
   become: yes
   file: 
     path: "/home/ec2-user/{{swap_size}}.swap"
     mode: 0600
-    
+  when: swap_file_status.stat.exists
+
 - name: Create swap space
   command:
     cmd: "mkswap /home/ec2-user/{{swap_size}}.swap"
@@ -17,7 +28,7 @@
 - name : enable swap
   command:
     cmd: "swapon /home/ec2-user/{{swap_size}}.swap"
-
+  
 - name: Copy the line to /etc/fstab
   lineinfile:
     path: /etc/fstab
@@ -25,6 +36,4 @@
     insertafter: EOF
     state: present
     create: yes
-
-
   
